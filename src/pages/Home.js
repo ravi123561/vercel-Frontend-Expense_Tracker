@@ -36,7 +36,7 @@ function Home() {
     let income = 0;
     let expense = 0;
 
-    expenses.forEach(item => {
+    expenses.forEach((item) => {
       const amt = Number(item.amount);
       if (amt > 0) income += amt;
       else expense += amt;
@@ -46,7 +46,7 @@ function Home() {
     setExpenseAmt(Math.abs(expense));
   }, [expenses]);
 
-  // 🔹 Initial fetch (FIXED FOR VERCEL)
+  // 🔹 Fetch expenses (Vercel-safe)
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
@@ -73,7 +73,7 @@ function Home() {
   }, [navigate]);
 
   // 🔹 Add Expense
-  const addTransaction = async data => {
+  const addTransaction = async (data) => {
     try {
       const response = await fetch(`${APIUrl}/expenses/add`, {
         method: "POST",
@@ -99,7 +99,7 @@ function Home() {
   };
 
   // 🔹 Delete Expense
-  const deleteExpense = async id => {
+  const deleteExpense = async (id) => {
     try {
       const response = await fetch(`${APIUrl}/expenses/${id}`, {
         method: "DELETE",
@@ -129,11 +129,17 @@ function Home() {
         <button onClick={handleLogout}>Logout</button>
       </div>
 
-      <ExpenseDetails incomeAmt={incomeAmt} expenseAmt={expenseAmt} />
+      <ExpenseDetails
+        incomeAmt={incomeAmt}
+        expenseAmt={expenseAmt}
+      />
 
       <ExpenseForm addTransaction={addTransaction} />
 
-      <ExpenseTable expenses={expenses} deleteExpense={deleteExpense} />
+      <ExpenseTable
+        expenses={expenses}
+        deleteExpense={deleteExpense}
+      />
 
       <ToastContainer />
     </div>
